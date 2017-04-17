@@ -1,19 +1,38 @@
-$.ajax({
-	url: "http://localhost:3333/item/list",
-	type: "post",
-	data: {
-		userId:"123"
-	},
-	success: function(data) {
+$('button').click(function(){
+	var username = $('.username').val(),
+		pwd = $('.pwd').val(),
+		tel = $('.tel').val(),
+		email = $('.email').val();
+		
+	console.log(username,pwd,tel,email)
+	
+	$.ajax({
+		url: "http://localhost:3333/zhuce/zhuce",
+		type: "post",
+		data: {
+			username: username,
+			password: pwd,
+			tel: tel,
+			email: email
+		},
+		success: function(data) {
+			console.log(data)
+		}
+	});
+})
+
+//$.ajax({
+//	url: "http://localhost:3333/item/list",
+//	type: "get",
+//	success: function(data) {
 //		console.log(data)
-//		console.log(data[0])
-//		console.log(data[0].spending)
 //		var html = '';
-//		for(var i=0; i<data[0].spending.length; i++){
-//			html += "<ul><li>"+data[0].spending[i].time+"</li><li>"+data[0].spending[i].category+"</li><li>"+data[0].spending[i].count+"</li></ul>"
+//		for(var i=0; i<data.length; i++){
+//			html += "<ul><li>"+data[i].username+"</li><li>"+data[i].tel+"</li><li>"+data[i].regtime+"</li></ul>"
 //		}
-	},
-	error: function(){
-		alert('error')
-	}
-});
+//		$('body').append(html)
+//	},
+//	error: function(){
+//		alert('error')
+//	}
+//});

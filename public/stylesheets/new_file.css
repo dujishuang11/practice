@@ -1,0 +1,26 @@
+ul {
+	width: 100%;
+	display: flex;
+}
+ul li {
+	flex: 1;
+	text-align: center;
+	line-height: 2;
+	border: 1px solid black;
+}
+.title {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+div {
+	width: 400px;
+	margin: 0 auto;
+	line-height: 2;
+}
+button {
+	height: 50px;
+	line-height: 50px;
+	display: block;
+	margin: 20px auto;
+}
