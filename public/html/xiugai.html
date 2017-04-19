@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../stylesheets/rester.css"/>
+		<script src="../javascripts/jquery.js"></script>
+	</head>
+	<body>
+		<div>
+			<p>用户名：<input type="text" class = "username" /></p>
+			<p>密码：<input type="password" class="pwd" /></p>
+			<p>手机号：<input type="text" class="tel" /></p>
+			<p>邮箱：<input type="text" class="email" /></p>
+			<button>修改提交</button>
+		</div>
+		
+		<script>
+			var id = location.href.split('=')[1];
+			console.log(id)
+			$.ajax({
+				url: "http://localhost:3333/zhuce/xiugai",
+				type: "get",
+				data: {
+					"uid":id
+				},
+				success: function(data) {
+					console.log(data)
+					$('.username').val(data.result[0].username)
+					$('.pwd').val(data.result[0].pwd)
+					$('.tel').val(data.result[0].tel)
+					$('.email').val(data.result[0].email)
+				}
+			});
+			
+			$('button').click(function(){
+				var username = $('.username').val(),
+					pwd = $('.pwd').val(),
+					tel = $('.tel').val(),
+					email = $('.email').val();
+					
+				$.ajax({
+					url: "http://localhost:3333/zhuce/xiugai",
+					type: "post",
+					data: {
+						uid: id,
+						username: username,
+						password: pwd,
+						tel: tel,
+						email: email
+					},
+					success: function(data) {
+						console.log(data)
+					}
+				});
+			})
+		</script>
+		
+		
+		
+	</body>
+</html>

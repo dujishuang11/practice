@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../stylesheets/rester.css"/>
+		<link rel="stylesheet" type="text/css" href="../stylesheets/zhuce.css"/>
+		<script src="../javascripts/jquery.js"></script>
+	</head>
+
+	<body>
+		<h1>列表信息</h1>
+		
+		<script>
+			var html = '';
+			$.ajax({
+				url: "http://localhost:3333/zhuce/liebiao",
+				type: "get",
+				success: function(data) {
+					console.log(data.result)
+					for(var i=0; i<data.result.length; i++){
+						html += "<ul><li>"+data.result[i].username+"</li><li>"+data.result[i].tel+"</li><li>"+data.result[i].email+"</li><li><button id='"+data.result[i].id+"'>编辑</button></li></ul>"
+					}
+					$('body').append(html);
+				}
+			});
+			
+			$('body').delegate('button','click',function(){
+				
+				location.href = "xiugai.html?id="+$(this).attr('id')
+			})
+		</script>
+	</body>
+
+</html>

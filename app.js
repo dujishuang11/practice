@@ -11,7 +11,13 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var dudu = require('./routes/new');
-var user = require('./routes/username');
+//注册
+var zhuce = require('./routes/zhuce');
+//登陆
+var login = require('./routes/zhuce');
+//修改
+
+
 
 var app = express();
 
@@ -33,7 +39,10 @@ app.use('/', index);
 app.use('/users', users);
 
 app.use('/item',dudu);
-app.use('/zhuce',user);
+//注册
+app.use('/zhuce',zhuce);
+//登陆
+app.use('/user',login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
