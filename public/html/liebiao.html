@@ -4,32 +4,149 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="../stylesheets/rester.css"/>
-		<link rel="stylesheet" type="text/css" href="../stylesheets/zhuce.css"/>
+		<link rel="stylesheet" type="text/css" href="../stylesheets/rester.css" />
+		<link rel="stylesheet" type="text/css" href="../stylesheets/zhuce.css" />
 		<script src="../javascripts/jquery.js"></script>
 	</head>
 
 	<body>
+		<input type="text" class="sousuo" />
+		<button class="soubtn">搜索</button>
 		<h1>列表信息</h1>
-		
+		<ul>
+			<li>用户名</li>
+			<li>手机号</li>
+			<li>邮箱</li>
+			<li>操作</li>
+		</ul>
+		<div class="liebiao">
+
+		</div>
+		<div class="button">
+			<button class="up fl">上一页</button>
+			<ul class="fenye"></ul>
+			<button class="down fr">下一页</button>
+		</div>
+		<div class="zhezhao">
+			<p>确认删除此信息吗？</p>
+			<button class="btn">确定</button>
+			<button class="qu">取消</button>
+		</div>
+
 		<script>
 			var html = '';
-			$.ajax({
-				url: "http://localhost:3333/zhuce/liebiao",
-				type: "get",
-				success: function(data) {
-					console.log(data.result)
-					for(var i=0; i<data.result.length; i++){
-						html += "<ul><li>"+data.result[i].username+"</li><li>"+data.result[i].tel+"</li><li>"+data.result[i].email+"</li><li><button id='"+data.result[i].id+"'>编辑</button></li></ul>"
-					}
-					$('body').append(html);
-				}
-			});
+			var fenye = '';
+			var index = 0;
+			var _this = '';
+			var num = 1;
+			var data = '';
+			list()
 			
-			$('body').delegate('button','click',function(){
-				
-				location.href = "xiugai.html?id="+$(this).attr('id')
+			$('.fenye').delegate('.li','click',function(){
+				console.log('1111')
+				num = $(this).text();
+				list()
 			})
+			
+			function list() {
+				html = '';
+				fenye = '';
+				$('.fenye').children('li').remove()
+				$('.liebiao').children('ul').remove()
+				if(num <= 0){
+					$('.up').css('display','none');
+				}else {
+					$('.up').css('display','block');
+				}
+				$.ajax({
+					url: "http://localhost:3333/zhuce/liebiao",
+					type: "get",
+					data: {
+						num: num-1
+					},
+					success: function(data) {
+						console.log(data)
+						for(var i=0; i<data.totalSize; i++){
+							fenye += "<li class='li' index='"+(i+1)+"'>"+(i+1)+"</li>";
+						}
+						$('.fenye').append(fenye);
+						for(var i = 0; i < data.list.length; i++) {
+							html += "<ul><li>" + data.list[i].username + "</li><li>" + data.list[i].tel + "</li><li>" + data.list[i].email + "</li><li><button class='bianji' id='" + data.list[i].id + "'>编辑</button><button class='del' index='" + data.list[i].id + "'>删除</button></li></ul>"
+						}
+						$('.liebiao').append(html);
+						if(data.list.length < 3){
+							$('.down').css('display','none')
+						}else {
+							$('.down').css('display','block')
+						}
+					}
+				});
+			}
+			
+			$('.up').click(function(){
+				num--;
+				if(num < 0){
+					num = 0;
+				}
+				list()
+			})
+			$('.down').click(function(){
+				num++;
+				list()
+			})
+
+			$('body').delegate('.bianji', 'click', function() {
+				location.href = "xiugai.html?id=" + $(this).attr('id')
+			})
+			$('body').delegate('.del', 'click', function() {
+				$('.zhezhao').css('display', 'block')
+				index = $(this).attr('index');
+				_this = $(this);
+			})
+			$('body').delegate('.btn', 'click', function() {
+				$('.zhezhao').css('display', 'none')
+				$.ajax({
+					url: "http://localhost:3333/zhuce/del",
+					type: "get",
+					data: {
+						uid: index
+					},
+					success: function(data) {
+						console.log(data)
+						if(data.flag == 1) {
+							_this.parent().parent().remove('ul')
+						}
+					}
+				});
+			})
+			$('body').delegate('.qu', 'click', function() {
+				$('.zhezhao').css('display', 'none')
+			})
+			
+			
+			$('.soubtn').click(function(){
+				
+				var text = $('.sousuo').val();
+				$.ajax({
+					url: "http://localhost:3333/zhuce/sousuo",
+					type: "get",
+					data: {
+						text: text
+					},
+					success: function(data) {
+						console.log(data)
+						$('.liebiao').children().remove();
+						var html1 = ''
+						for(var i = 0; i < data.result.length; i++) {
+							html1 += "<ul><li>" + data.result[i].username + "</li><li>" + data.result[i].tel + "</li><li>" + data.result[i].email + "</li><li><button class='bianji' id='" + data.result[i].id + "'>编辑</button><button class='del' index='" + data.result[i].id + "'>删除</button></li></ul>"
+						}
+						$('.liebiao').append(html1);
+					}
+				});
+			})
+			
+			
+			
 		</script>
 	</body>
 

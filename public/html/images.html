@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../javascripts/jquery.js"></script>
+	</head>
+
+	<body>
+		用户名：<input type="text" class="username" /><br /> 密码：
+		<input type="password" class="pwd" /><br />
+		<input type="file" class="img" /><br />
+		<button>上传</button>
+
+		
+
+		<script>
+			var file;
+			$('.img').change(function() {
+				file = this.files[0];
+			})
+
+			$('button').click(function() {
+				var username = $('.username').val(),
+					pwd = $('.pwd').val();
+				var formdata = new FormData();
+				formdata.append("uploadeFile",file);
+
+				console.log(username, pwd, file)
+
+				$.ajax({
+					url: "http://localhost:3333/img/img",
+					type: "post",
+					data: formdata,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						console.log(data)
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

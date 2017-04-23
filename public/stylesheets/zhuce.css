@@ -1,9 +1,14 @@
+html,body {
+	width: 100%;
+	position: relative;
+}
 ul {
 	width: 100%;
 	display: flex;
 }
 ul li {
 	flex: 1;
+	height: 50px;
 	text-align: center;
 	line-height: 2;
 	border: 1px solid black;
@@ -20,7 +25,47 @@ div {
 }
 button {
 	height: 50px;
-	line-height: 50px;
+	line-height: 2;
+	display: inline-block;
+	margin-left: 20px;
+}
+.zhezhao {
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.5);
+	position: absolute;
+	display: none;
+}
+.zhezhao p {
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+.zhezhao button {
 	display: block;
-	margin: 20px auto;
+	margin: 0 auto;
+}
+.liebiao {
+	width: 100%;
+	height: 100%;
+	overflow-y: inherit;
+}
+.button {
+	width: 400px;
+	height: 100px;
+	position: fixed;
+	left: 500px;
+	bottom: 0;
+}
+.button button {
+	width: 80px;
+	height: 50px;
+}
+.fenye {
+	width: 200px;
+	float: left;
+	/*margin-left: 5px;*/
+}
+.fenye li {
+	border: 0;
 }
